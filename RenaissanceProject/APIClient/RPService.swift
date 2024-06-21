@@ -7,10 +7,6 @@
 
 import Foundation
 
-
-
-
-
 /// Primary API Service object to get Rick and Morty data
 final class RPService {
     
@@ -22,16 +18,10 @@ final class RPService {
     
     /// API Call
     /// - Parameters:
-    ///   - request: RPRequest
+    ///   - request: Request instance
+    ///   - type : The type of object we expect to get back
     ///   - completion: Callback with data or error from API call
-    public func execute(_ request: RPRequest, completion: @escaping (Result<Data, Error>) -> Void) {
-//        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-//            guard let data = data, error == nil else {
-//                completion(.failure(RPRequest.failedToGetData))
-//                return
-//            }
-//            completion(.success(data))
-//        }
-//        task.resume()
+    public func execute<T:Codable>(_ request: RPRequest,expecting tyep:T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+
     }
 }
