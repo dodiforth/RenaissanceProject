@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Controller to show and search for Location
 final class RPLocationViewController: UIViewController {
 
     override func viewDidLoad() {

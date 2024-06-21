@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+/// Controller to show various options and settings
 final class RPSettingsViewController: UIViewController {
 
     override func viewDidLoad() {
