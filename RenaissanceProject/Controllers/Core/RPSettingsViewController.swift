@@ -17,7 +17,4 @@ final class RPSettingsViewController: UIViewController {
         title = "Settings"
     }
     
-
-   
-
 }
