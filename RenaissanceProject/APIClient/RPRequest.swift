@@ -19,7 +19,7 @@ final class RPRequest {
     private let endpoint: RPEndpoint
     
     /// Path Components for API, if any
-    private let pathComponents:Set<String>
+    private let pathComponents:[String]
     
     /// Query arguments for API, if any
     private let queryParameters:[URLQueryItem]
@@ -67,11 +67,16 @@ final class RPRequest {
     ///   - queryParameters: collection of query parameters
     init(
         endpoint: RPEndpoint,
-        pathComponents: Set<String> = [],
+        pathComponents: [String] = [],
         queryParameters: [URLQueryItem] = []
     ) {
         self.endpoint = endpoint
         self.pathComponents = pathComponents
         self.queryParameters = queryParameters
     }
+}
+
+
+extension RPRequest {
+    static let listCharactersRequest = RPRequest(endpoint: .character)
 }
