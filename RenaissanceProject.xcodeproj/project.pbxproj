@@ -29,6 +29,7 @@
 		3B3C0E222C2739A20016CA66 /* RPGetAllCharactersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C0E212C2739A20016CA66 /* RPGetAllCharactersResponse.swift */; };
 		3B3C0E242C27571D0016CA66 /* CharacterListViewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C0E232C27571D0016CA66 /* CharacterListViewVM.swift */; };
 		3B3C0E262C275FBE0016CA66 /* CharacterListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C0E252C275FBE0016CA66 /* CharacterListView.swift */; };
+		3B3C0E282C276B1F0016CA66 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3C0E272C276B1F0016CA66 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		3B3C0E212C2739A20016CA66 /* RPGetAllCharactersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RPGetAllCharactersResponse.swift; sourceTree = "<group>"; };
 		3B3C0E232C27571D0016CA66 /* CharacterListViewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListViewVM.swift; sourceTree = "<group>"; };
 		3B3C0E252C275FBE0016CA66 /* CharacterListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterListView.swift; sourceTree = "<group>"; };
+		3B3C0E272C276B1F0016CA66 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +92,7 @@
 			children = (
 				3B31DF6B2C24CF6800BF12F9 /* AppDelegate.swift */,
 				3B31DF6D2C24CF6800BF12F9 /* SceneDelegate.swift */,
+				3B3C0E272C276B1F0016CA66 /* Extensions.swift */,
 				3B31DF792C24CF6A00BF12F9 /* Info.plist */,
 				3B3C0E012C25F3B10016CA66 /* Resources */,
 				3B3C0E002C25F3AC0016CA66 /* Manager */,
@@ -278,6 +281,7 @@
 				3B3C0E142C2608130016CA66 /* RPRequest.swift in Sources */,
 				3B3C0E162C26096F0016CA66 /* RPEndpoint.swift in Sources */,
 				3B3C0E032C25F4C20016CA66 /* RPLocation.swift in Sources */,
+				3B3C0E282C276B1F0016CA66 /* Extensions.swift in Sources */,
 				3B3C0E122C2608080016CA66 /* RPService.swift in Sources */,
 				3B3C0E1C2C261F7C0016CA66 /* RPChararacterStatus.swift in Sources */,
 				3B31DF6E2C24CF6800BF12F9 /* SceneDelegate.swift in Sources */,
