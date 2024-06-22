@@ -5,9 +5,9 @@
 //  Created by Dowon Kim on 22/06/2024.
 //
 
-import Foundation
+import UIKit
 
-struct CharacterListViewVM {
+final class CharacterListViewVM: NSObject {
     func fetchCharacters() {
         RPService.shared.execute(.listCharactersRequest, expecting: RPGetAllCharactersResponse.self) { result in
             switch result {
@@ -20,5 +20,18 @@ struct CharacterListViewVM {
                 print(String(describing: error))
             }
         }
+    }
+}
+
+
+extension CharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .systemGreen
+        return cell
     }
 }
