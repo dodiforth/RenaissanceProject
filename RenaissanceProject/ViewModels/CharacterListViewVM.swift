@@ -24,7 +24,7 @@ final class CharacterListViewVM: NSObject {
 }
 
 
-extension CharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate {
+extension CharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
@@ -33,5 +33,10 @@ extension CharacterListViewVM: UICollectionViewDataSource, UICollectionViewDeleg
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         cell.backgroundColor = .systemGreen
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        return CGSize(width: collectionView.frame.width-20, height: 200)
     }
 }
