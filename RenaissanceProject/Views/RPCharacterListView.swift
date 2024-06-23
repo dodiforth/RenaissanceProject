@@ -7,9 +7,9 @@
 
 import UIKit
 
-final class CharacterListView: UIView {
+final class RPCharacterListView: UIView {
     
-    private let viewModel = CharacterListViewVM()
+    private let viewModel = RPCharacterListViewVM()
     
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
@@ -26,7 +26,7 @@ final class CharacterListView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isHidden = true
         collectionView.alpha = 0
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(RPCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RPCharacterCollectionViewCell.cellIdentifier)
         return collectionView
     }()
      

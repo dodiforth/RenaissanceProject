@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CharacterListViewVM: NSObject {
+final class RPCharacterListViewVM: NSObject {
     func fetchCharacters() {
         RPService.shared.execute(.listCharactersRequest, expecting: RPGetAllCharactersResponse.self) { result in
             switch result {
@@ -24,14 +24,17 @@ final class CharacterListViewVM: NSObject {
 }
 
 
-extension CharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .systemGreen
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: RPCharacterCollectionViewCell.cellIdentifier,
+            for: indexPath) as? RPCharacterCollectionViewCell else { fatalError("Unsupported Cell") }
+        let viewModel = RPCharacterCollectionViewCellVM(characterName: "Dowon", characterStatus: .alive, characterImageUrl: nil)
+        cell.configure(with: viewModel)
         return cell
     }
     

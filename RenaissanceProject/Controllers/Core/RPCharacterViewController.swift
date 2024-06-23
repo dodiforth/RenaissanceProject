@@ -10,7 +10,7 @@ import UIKit
 /// Controller to show and search for Characters
 final class RPCharacterViewController: UIViewController {
     
-    private let characterListView = CharacterListView()
+    private let characterListView = RPCharacterListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
