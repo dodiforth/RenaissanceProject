@@ -34,6 +34,7 @@ final class RPCharacterListView: UIView {
         collectionView.isHidden = true
         collectionView.alpha = 0
         collectionView.register(RPCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RPCharacterCollectionViewCell.cellIdentifier)
+        collectionView.register(RPFooterLoadingCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RPFooterLoadingCollectionReusableView.identifier)
         return collectionView
     }()
     

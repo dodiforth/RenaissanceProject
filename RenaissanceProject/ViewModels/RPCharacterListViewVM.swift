@@ -12,16 +12,13 @@ protocol RPCharacterListViewVMDelegate: AnyObject {
     func didSelectCharacter(_ character: RPCharacter)
 }
 
+
+/// View Model to handle character list view logic
 final class RPCharacterListViewVM: NSObject {
     
     public weak var delegate: RPCharacterListViewVMDelegate?
     
     public var isLoadingMoreCharacters = false
-    
-    public var shouldShowLoadMoreIndicator: Bool {
-        return characters.count % 20 == 0 && !isLoadingMoreCharacters
-    }
-    
     
     private var characters: [RPCharacter] = []{
         didSet{
@@ -35,13 +32,18 @@ final class RPCharacterListViewVM: NSObject {
     
     private var cellViewModels: [RPCharacterCollectionViewCellVM] = []
     
+    private var apiInfo: RPGetAllCharactersResponse.Info? = nil
+    
+    // Fetch initial set of characters (20)
     public func fetchCharacters() {
         RPService.shared.execute(.listCharactersRequest, expecting: RPGetAllCharactersResponse.self) 
         { [weak self] result in
             switch result {
             case .success(let responseModel):
                 let results = responseModel.results
+                let info = responseModel.info
                 self?.characters = results
+                self?.apiInfo = info
                 DispatchQueue.main.async {
                     self?.delegate?.didLoadInitialCharacters()
                 }
@@ -50,9 +52,22 @@ final class RPCharacterListViewVM: NSObject {
             }
         }
     }
+    
+    // Paginate if we are near the end or additional characters are needed
+    public func fetchAdditionalCharacters() {
+        //fetch characters
+        
+    }
+    
+    public var shouldShowLoadMoreIndicator: Bool {
+        
+        return apiInfo?.next != nil
+    }
+    
 }
 
 
+// MARK: - CollectionView
 extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cellViewModels.count
@@ -67,6 +82,25 @@ extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDel
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionFooter,
+              let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RPFooterLoadingCollectionReusableView.identifier, for: indexPath) as? RPFooterLoadingCollectionReusableView
+        else {
+            fatalError("Unsupported")
+        }
+    
+        footer.startAnimating()
+        return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard shouldShowLoadMoreIndicator else {
+            return .zero
+        }
+        
+        return CGSize(width: collectionView.frame.width, height: 100)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let bounds = UIScreen.main.bounds
         let width = (bounds.width-30)/2
@@ -78,5 +112,14 @@ extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDel
         collectionView.deselectItem(at: indexPath, animated: true)
         let character = characters[indexPath.row]
         delegate?.didSelectCharacter(character)
+    }
+}
+
+// MARK: - ScrollView
+extension RPCharacterListViewVM: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard shouldShowLoadMoreIndicator else {
+            return
+        }
     }
 }
