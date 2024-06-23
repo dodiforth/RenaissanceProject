@@ -12,10 +12,7 @@ final class RPCharacterListViewVM: NSObject {
         RPService.shared.execute(.listCharactersRequest, expecting: RPGetAllCharactersResponse.self) { result in
             switch result {
             case .success(let model):
-                print("Total info: "+String(model.info.count))
-                print("Total results: "+String(model.results.count))
-                print("Total pages: "+String(model.info.pages))
-
+                print("Example image url : "+String(model.results.first?.image ?? "Not found"))
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -33,7 +30,7 @@ extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDel
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: RPCharacterCollectionViewCell.cellIdentifier,
             for: indexPath) as? RPCharacterCollectionViewCell else { fatalError("Unsupported Cell") }
-        let viewModel = RPCharacterCollectionViewCellVM(characterName: "Dowon", characterStatus: .alive, characterImageUrl: nil)
+        let viewModel = RPCharacterCollectionViewCellVM(characterName: "Dowon", characterStatus: .alive, characterImageUrl: URL(string: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"))
         cell.configure(with: viewModel)
         return cell
     }
