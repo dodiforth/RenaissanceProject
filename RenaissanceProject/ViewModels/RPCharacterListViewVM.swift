@@ -7,7 +7,21 @@
 
 import UIKit
 
+protocol RPCharacterListViewVMDelegate: AnyObject {
+    func didLoadInitialCharacters()
+    func didSelectCharacter(_ character: RPCharacter)
+}
+
 final class RPCharacterListViewVM: NSObject {
+    
+    public weak var delegate: RPCharacterListViewVMDelegate?
+    
+    public var isLoadingMoreCharacters = false
+    
+    public var shouldShowLoadMoreIndicator: Bool {
+        return characters.count % 20 == 0 && !isLoadingMoreCharacters
+    }
+    
     
     private var characters: [RPCharacter] = []{
         didSet{
@@ -28,6 +42,9 @@ final class RPCharacterListViewVM: NSObject {
             case .success(let responseModel):
                 let results = responseModel.results
                 self?.characters = results
+                DispatchQueue.main.async {
+                    self?.delegate?.didLoadInitialCharacters()
+                }
             case .failure(let error):
                 print(String(describing: error))
             }
@@ -55,5 +72,11 @@ extension RPCharacterListViewVM: UICollectionViewDataSource, UICollectionViewDel
         let width = (bounds.width-30)/2
         return CGSize(
             width: width, height: width*1.5)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let character = characters[indexPath.row]
+        delegate?.didSelectCharacter(character)
     }
 }

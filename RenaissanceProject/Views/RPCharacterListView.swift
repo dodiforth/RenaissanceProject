@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol RPCharacterListViewDelegate: AnyObject {
+    func rpCharacterListView(_ characterListView: RPCharacterListView,
+    didSelectCharacter character: RPCharacter)
+}
+
 final class RPCharacterListView: UIView {
+    
+    public weak var delegate: RPCharacterListViewDelegate?
     
     private let viewModel = RPCharacterListViewVM()
     
@@ -21,7 +28,7 @@ final class RPCharacterListView: UIView {
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.isHidden = true
@@ -29,13 +36,14 @@ final class RPCharacterListView: UIView {
         collectionView.register(RPCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RPCharacterCollectionViewCell.cellIdentifier)
         return collectionView
     }()
-     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews(collectionView, spinner)
         addConstraints()
         spinner.startAnimating()
+        viewModel.delegate = self
         viewModel.fetchCharacters()
         setUpCollectionView()
     }
@@ -64,14 +72,25 @@ final class RPCharacterListView: UIView {
     private func setUpCollectionView() {
         collectionView.dataSource = viewModel
         collectionView.delegate = viewModel
-        DispatchQueue.main.asyncAfter(deadline: .now()+2, execute: {
-            
-            self.spinner.stopAnimating()
-            self.collectionView.isHidden = false
-            UIView.animate(withDuration: 0.4) {
-                self.collectionView.alpha = 1
-            }
-        })
         
+        
+    }
+}
+
+extension RPCharacterListView: RPCharacterListViewVMDelegate {
+    func didLoadInitialCharacters() {
+        spinner.stopAnimating()
+        self.collectionView.isHidden = false
+
+        collectionView.reloadData() // initial fetch
+        
+        UIView.animate(withDuration: 0.4) {
+            self.collectionView.alpha = 1
+        }
+        
+    }
+    
+    func didSelectCharacter(_ character: RPCharacter) {
+        delegate?.rpCharacterListView(self, didSelectCharacter: character)
     }
 }
